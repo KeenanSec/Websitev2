@@ -1,0 +1,5 @@
+---
+import Layout from '../../layouts/Layout.astro';import Archive from '../../components/Archive.astro';import {categories,slug} from '../../lib/site';
+export function getStaticPaths(){return categories.map(c=>({params:{category:slug(c.name)},props:{category:c}}));}const {category}=Astro.props;
+---
+<Layout title={category.name}><div class="page-heading"><p class="meta">The journal / Categories</p><h1>{category.name}</h1><p>{category.description}</p></div><Archive category={category.name}/></Layout>

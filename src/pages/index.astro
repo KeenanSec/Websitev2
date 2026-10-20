@@ -1,0 +1,4 @@
+---
+import Layout from '../layouts/Layout.astro';import Card from '../components/Card.astro';import {posts,url} from '../lib/site';const latest=(await posts()).slice(0,3);
+---
+<Layout home><section class="identity" aria-label="Keenansec"><h1>KEENANSEC</h1><p>“BUILD. BREAK. FIX ”</p></section><section class="latest"><div class="section-top"><h2 class="meta">Latest entries</h2><a class="meta view-all" href={url('archive/')}>View all <span aria-hidden="true">⟶</span></a></div><div class="grid">{latest.map(post=><Card post={post}/>)}</div></section></Layout>

@@ -1,0 +1,23 @@
+---
+import '../styles/global.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/cormorant-garamond/400.css';
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource/bungee-outline/400.css';
+import {site,url,posts,assetAvailable,assetUrl} from '../lib/site';
+const {title=site.name,description=site.description,home=false,image='assets/social.svg'}=Astro.props;
+const all=await posts();
+const nav=[['Home',''],['Archive','archive/'],['Categories','categories/'],['About','about/']];
+const canonical=new URL(Astro.url.pathname,Astro.site);
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>{title===site.name?title:`${title} — ${site.name}`}</title><meta name="description" content={description}/><link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href={url('favicon.svg')}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={canonical}/><meta property="og:image" content={new URL(assetUrl(image),Astro.site)}/><meta name="twitter:card" content="summary_large_image"/></head>
+<body class:list={[{home}]} style={assetAvailable('assets/landscape.png')?`--landscape: url("${assetUrl('assets/landscape.png')}")`:undefined}><div class="landscape" aria-hidden="true"></div><a class="skip" href="#main">Skip to content</a>
+<header class="header shell"><nav class="desktop-nav" aria-label="Main navigation">{nav.map(([label,path])=><a href={url(path)} aria-current={(path ? Astro.url.pathname.startsWith(url(path)) : Astro.url.pathname===url())?'page':undefined}>{label}</a>)}</nav><div class="tools"><button class="icon" data-search-open aria-label="Search articles"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg></button><button class="icon" data-menu-open aria-label="Open navigation menu" aria-haspopup="dialog"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div></header>
+<noscript><nav class="shell nojs-nav" aria-label="Navigation">{nav.map(([label,path])=><a href={url(path)}>{label}</a>)}</nav></noscript>
+<main id="main" class="shell"><slot/></main>
+{!home&&<footer class="shell footer"><span>© {new Date().getFullYear()} Keenan Morrison</span><span>Build. Break. Fix.</span><a href={url('about/')}>About this journal ↗</a></footer>}
+<dialog id="menu-dialog" aria-labelledby="menu-title"><div class="dialog-top"><h2 id="menu-title">Explore</h2><button data-close class="icon" aria-label="Close menu">×</button></div><nav class="menu-nav" aria-label="Expanded navigation">{nav.map(([label,path])=><a href={url(path)}>{label}<span aria-hidden="true">↗</span></a>)}</nav></dialog>
+<dialog id="search-dialog" aria-labelledby="search-title"><div class="dialog-top"><h2 id="search-title">Search the journal</h2><button data-close class="icon" aria-label="Close search">×</button></div><label for="search-input" class="meta">Title, topic, or tag</label><input id="search-input" type="search" placeholder="What are you curious about?" autocomplete="off"/><p id="search-status" role="status">Start typing to explore the journal.</p><ul id="search-results"></ul></dialog>
+<script id="search-data" type="application/json" set:html={JSON.stringify(all.map(p=>({title:p.data.title,summary:p.data.summary,category:p.data.category,tags:p.data.tags,url:url(`articles/${p.id}/`)}))).replace(/</g,'\u003c')}/>
+<script>import '../scripts/site';</script>
+</body></html>

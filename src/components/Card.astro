@@ -1,0 +1,12 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import {url,date,assetAvailable,assetUrl} from '../lib/site';
+const {post}=Astro.props as {post:CollectionEntry<'articles'>};
+---
+<article class="card" data-category={post.data.category}>
+ <a class="card-image" href={url(`articles/${post.id}/`)} aria-label={post.data.title}>
+ {post.data.cover && assetAvailable(post.data.cover) && <img src={assetUrl(post.data.cover)} alt={post.data.coverAlt} width="872" height="294" loading="lazy"/>}
+ <time datetime={post.data.date.toISOString()}>{date(post.data.date)}</time>
+ </a>
+ <div class="card-body"><div class="meta">{post.data.category}</div><h2><a href={url(`articles/${post.id}/`)}>{post.data.title}</a></h2><p>{post.data.summary}</p><a class="read-link" href={url(`articles/${post.id}/`)}>Read more <span aria-hidden="true">⟶</span></a></div>
+</article>

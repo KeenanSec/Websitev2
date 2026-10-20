@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';import {site,url} from '../lib/site';
+---
+<Layout title="About"><div class="about-page"><div class="page-heading"><p class="meta">Behind the journal</p><h1>Curiosity. Then practice.</h1><p>Keenan Morrison / KEENANSEC</p></div><div class="prose about"><p>I’m Keenan Morrison. KEENANSEC is a place to document cybersecurity learning, explore how software works, and think through ideas by building things.</p><h2>Build. Break. Fix.</h2><p>The interests behind this journal include defensive security, reverse engineering, Windows internals, and small technical projects. The aim is to ask better questions, keep useful notes, and make the learning process visible.</p><h2>A working notebook</h2><p>The initial articles are clearly marked demonstrations. They illustrate the shape of this journal and do not represent completed projects or claims about my experience. Future entries can replace them with firsthand observations, reproducible experiments, and lessons learned.</p><h2>Find a starting point</h2><p>Explore the <a href={url('categories/')}>categories</a> or browse the <a href={url('archive/')}>archive</a>.</p>{site.socials.length>0&&<ul>{site.socials.map(s=><li><a href={s.url} rel="me noopener noreferrer">{s.label} ↗</a></li>)}</ul>}</div></div></Layout>
+
+<style>
+ .about-page { text-align: center; }
+ .about-page .page-heading,
+ .about-page .about,
+ .about-page .page-heading > p { margin-inline: auto; }
+ .about-page ul { list-style: none; padding-inline: 0; }
+</style>

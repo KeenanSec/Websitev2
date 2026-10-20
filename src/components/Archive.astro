@@ -1,0 +1,4 @@
+---
+import Card from './Card.astro';import {posts,categories} from '../lib/site';const {category='All'}=Astro.props;const all=await posts();
+---
+<section data-archive data-initial-category={category}><div class="filters" role="group" aria-label="Filter by category">{['All',...categories.map(c=>c.name)].map(c=><button data-filter={c} aria-pressed={c===category}>{c}</button>)}</div><p class="meta" data-count role="status">{all.length} entries</p><div class="grid" data-posts>{all.map(post=><Card post={post}/>)}</div><p data-empty hidden>No entries in this category yet. Check back soon.</p><div class="load-wrap"><button class="outline-button" data-load hidden>Load more <span aria-hidden="true">↓</span></button></div><noscript><p>All entries are shown. Enable JavaScript to filter by category.</p></noscript></section>

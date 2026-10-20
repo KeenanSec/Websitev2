@@ -1,0 +1,4 @@
+---
+import Layout from '../../layouts/Layout.astro';import {categories,posts,slug,url} from '../../lib/site';const all=await posts();
+---
+<Layout title="Categories"><div class="page-heading"><p class="meta">The journal / Categories</p><h1>Choose a thread.</h1><p>Four ways into the journal.</p></div><div class="category-list">{categories.map((c,i)=><a href={url(`categories/${slug(c.name)}/`)}><span class="meta">0{i+1}</span><div><h2>{c.name}</h2><p>{c.description}</p></div><span class="meta">{all.filter(p=>p.data.category===c.name).length} entries ↗</span></a>)}</div></Layout>
